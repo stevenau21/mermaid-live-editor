@@ -13,6 +13,7 @@
   import { waitForRender } from '$lib/util/autoSync';
   import { inputStateStore, stateStore, urlsStore } from '$lib/util/state';
   import { logEvent } from '$lib/util/stats';
+
   import { version as FAVersion } from '@fortawesome/fontawesome-free/package.json';
   import dayjs from 'dayjs';
   import { toBase64 } from 'js-base64';
@@ -293,6 +294,7 @@ ${svgString}`);
           </Button>
         </a>
       </ExternalLinkWrapper>
+
     </div>
     <Separator />
     {#if isClipboardAvailable()}
