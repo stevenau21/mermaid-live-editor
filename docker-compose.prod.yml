@@ -29,6 +29,8 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    extra_hosts:
+      - "ollama-host:172.27.111.234"
     networks:
       - mermaid-network
 

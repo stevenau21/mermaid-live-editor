@@ -7,6 +7,7 @@
   import { logMermaidChartClick } from '$/util/stats';
   import { quintInOut } from 'svelte/easing';
   import { slide } from 'svelte/transition';
+  import AiGenerateDialog from './AiGenerateDialog.svelte';
 
   const visualEditDiagramTypes = new Set([
     'flowchart',
@@ -37,6 +38,7 @@
   const cycleIntervalMs = 30_000;
 
   let currentActionIndex = $state(0);
+  let showAiDialog = $state(false);
 
   const availableActions = $derived.by<EnhancedEditAction[]>(() => {
     if (!$stateStore.diagramType) {
@@ -93,7 +95,24 @@
   });
 </script>
 
-{#if currentAction}
+{#if currentAction && currentAction.medium === 'ai_edit'}
+  <Button
+    variant="secondary"
+    size="sm"
+    onclick={() => { showAiDialog = true; logMermaidChartClick(currentAction.source); }}>
+    <MermaidChartIcon />
+    Edit
+    {#key currentAction.label}
+      <span
+        class="-ml-1"
+        in:slide={{ axis: 'x', easing: quintInOut, delay: 400 }}
+        out:slide={{ axis: 'x', easing: quintInOut }}>
+        {currentAction.label}
+      </span>
+    {/key}
+  </Button>
+  <AiGenerateDialog bind:open={showAiDialog} onclose={() => showAiDialog = false} />
+{:else if currentAction}
   <McWrapper>
     <Button
       variant="secondary"
